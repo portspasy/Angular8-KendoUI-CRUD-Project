@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="row">
+    <kendo-grid
+      [pageSize]="10"
+      [pageable]="true"
+      [sortable]="true"
+      [height]="500"
+      [kendoGridBinding]="users"
+      [kendoGridReactiveEditing]="createFormGroup"
+      [removeConfirmation]="removeConfirmation"
+    >
+      <ng-template kendoGridToolbarTemplate>
+        <button kendoGridAddCommand>Add new user</button>
+      </ng-template>
+      <kendo-grid-column
+        field="FirstName"
+        title="First Name"
+      ></kendo-grid-column>
+      <kendo-grid-column
+        field="LastName"
+        title="Last Name"
+      ></kendo-grid-column>
+      <kendo-grid-column field="Email" title="E-mail"></kendo-grid-column>
+      <kendo-grid-column field="Password" title="Password"></kendo-grid-column>
+      <kendo-grid-column field="RoleID"  editor="numeric" title="Role-ID"></kendo-grid-column>
+      <kendo-grid-command-column title="Command" width="220">
+        <ng-template kendoGridCellTemplate let-isNew="isNew">
+          <button kendoGridEditCommand [primary]="true">Edit</button>
+          <button kendoGridRemoveCommand>Remove</button>
+          <button kendoGridSaveCommand>Save</button>
+          <button kendoGridCancelCommand>
+            {{ isNew ? "Discard changes" : "Cancel" }}
+          </button>
+        </ng-template>
+      </kendo-grid-command-column>
+    </kendo-grid>
+    <kendo-dialog
+      title="Please confirm"
+      *ngIf="itemToRemove"
+      (close)="confirmRemove(false)"
+    >
+      <p style="margin: 30px; text-align: center;">
+        Are you sure you want to delete user: {{ itemToRemove.FirstName }}  {{ itemToRemove.LastName }}?
+      </p>
+      <kendo-dialog-actions>
+        <button class="k-button" (click)="confirmRemove(false)">No</button>
+        <button
+          class="k-button k-primary"
+          (click)="confirmRemove(true)"
+          primary="true"
+        >
+          Yes
+        </button>
+      </kendo-dialog-actions>
+    </kendo-dialog>
+  </div>
+</div>
